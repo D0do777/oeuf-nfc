@@ -58,3 +58,39 @@ if (!localStorage.getItem("rarete")) {
   let rarete = localStorage.getItem("rarete");
   message.textContent = `Rareté : ${rarete}`;
 }
+
+const creatures = [
+  { name: "Dino Commun", rarity: "Commun" },
+  { name: "Dino Rare", rarity: "Rare" },
+  { name: "Dino Épique", rarity: "Épique" },
+  { name: "Dino Légendaire", rarity: "Légendaire" },
+  // Ajoute d'autres créatures ici
+];
+
+function afficherIndex() {
+  const indexContainer = document.getElementById("index-creatures");
+  indexContainer.innerHTML = ""; // On vide d’abord le conteneur
+
+  creatures.forEach(creature => {
+    const div = document.createElement("div");
+    div.className = "creature";
+
+    const nom = document.createElement("p");
+    nom.textContent = creature.name;
+
+    // Vérifier si la créature est débloquée
+    const debloquee = localStorage.getItem(creature.name);
+
+    if (debloquee) {
+      div.classList.add("debloquee");
+    } else {
+      div.classList.add("non-debloquee");
+    }
+
+    div.appendChild(nom);
+    indexContainer.appendChild(div);
+  });
+}
+
+// Appeler la fonction pour afficher l’index
+afficherIndex();
