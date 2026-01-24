@@ -11,4 +11,4 @@ if (!jour) {
   message.textContent = "L’œuf se souvient de toi.";
 }
 
-image.src = "oeuf.png";
+image.src = "Œuf de dinosaure brillant (1).png";
