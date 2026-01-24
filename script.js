@@ -11,4 +11,4 @@ if (!jour) {
   message.textContent = "L’œuf se souvient de toi.";
 }
 
-image.src = "https://via.placeholder.com/300?text=Oeuf";
+image.src = "oeuf.png";
