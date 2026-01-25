@@ -1,78 +1,87 @@
+// ====== ELEMENTS HTML ======
 const message = document.getElementById("message");
 const image = document.getElementById("image");
 
-// Récupérer ou initialiser le jour et la date du dernier scan
-function initialiserJour() {
-  let jour = parseInt(localStorage.getItem("jour")) || 1;
-  const dernierScan = localStorage.getItem("dernierScan");
-  const aujourd'hui = new Date().toISOString().split('T')[0];
-
-  if (dernierScan !== aujourd'hui) {
-    jour += 1;
-    localStorage.setItem("jour", jour);
-    localStorage.setItem("dernierScan", aujourd'hui);
-  }
-
-  return jour;
+// ====== DATE DU JOUR ======
+function getToday() {
+  return new Date().toISOString().split("T")[0];
 }
 
-// Définir la rareté de l'œuf uniquement le huitième jour
-function initialiserRarete(jour) {
-  if (jour === 8 && !localStorage.getItem("rarete")) {
-    const chance = Math.random();
-    let rarete = "Commun";
+// ====== RARETÉ (UNE FOIS PAR ŒUF) ======
+function generateRarity() {
+  const roll = Math.random();
 
-    if (chance < 0.05) {
-      rarete = "Légendaire";
-    } else if (chance < 0.15) {
-      rarete = "Épique";
-    } else if (chance < 0.40) {
-      rarete = "Rare";
-    }
-
-    localStorage.setItem("rarete", rarete);
-  }
+  if (roll < 0.05) return "Légendaire";   // 5%
+  if (roll < 0.15) return "Épique";       // 10%
+  if (roll < 0.40) return "Rare";         // 25%
+  return "Commun";                        // 60%
 }
 
-// Obtenir l'image en fonction du jour
-function obtenirImage(jour) {
-  const oeufImages = [
-    'Œuf de dinosaure 1.png',
-    'oeuf 2.png',
-    'oeuf 3.png',
-    'oeuf 4.png',
-    'oeuf 5.png',
-    'image 6.png'
-  ];
+// ====== IMAGES ======
+const eggImages = [
+  "Œuf de dinosaure 1.png",
+  "oeuf 2.png",
+  "oeuf 3.png",
+  "oeuf 4.png",
+  "oeuf 5.png",
+  "image 6.png"
+];
 
-  const creatureImage = 'dinos.avif';
+const dinoImage = "dinos.avif";
 
-  if (jour >= 1 && jour <= 6) {
-    return oeufImages[jour - 1];
-  } else if (jour === 7) {
-    return creatureImage;
-  } else {
-    // Si on est au-delà du septième jour, on revient à un nouvel œuf
-    return oeufImages[0];
-  }
-}
+// ====== LOGIQUE PRINCIPALE ======
+function runApp() {
+  let day = parseInt(localStorage.getItem("day")) || 1;
+  let lastScan = localStorage.getItem("lastScan");
+  const today = getToday();
 
-// Mettre à jour l'affichage en fonction du jour
-function mettreAJourAffichage() {
-  const jour = initialiserJour();
-  initialiserRarete(jour);
-
-  if (jour === 1) {
-    message.textContent = "Un œuf vient d’apparaître. Reviens demain.";
-  } else if (jour >= 2 && jour <= 7) {
-    message.textContent = `Jour ${jour} : L’œuf évolue…`;
-  } else {
-    // Jour 8 et au-delà : nouvel œuf
-    message.textContent = "Un nouvel œuf apparaît. Reviens demain.";
+  // ❌ Scan déjà fait aujourd’hui
+  if (lastScan === today) {
+    message.textContent = "⏳ Tu as déjà scanné aujourd’hui. Reviens demain.";
+    image.src = getImageForDay(day);
+    return;
   }
 
-  image.src = obtenirImage(jour);
+  // ✅ Nouveau jour
+  localStorage.setItem("lastScan", today);
+
+  // 🎲 Premier jour → nouvelle rareté
+  if (day === 1) {
+    const rarity = generateRarity();
+    localStorage.setItem("rarity", rarity);
+    message.textContent = `🥚 Un œuf ${rarity} apparaît !`;
+    image.src = eggImages[0];
+    return;
+  }
+
+  // 🦖 Jour 7 → dinosaure
+  if (day === 7) {
+    message.textContent = "🦖 L’œuf éclot ! Un dinosaure apparaît !";
+    image.src = dinoImage;
+    localStorage.setItem("day", day + 1);
+    return;
+  }
+
+  // 🔁 Jour 8 → reset (nouvel œuf)
+  if (day >= 8) {
+    localStorage.clear();
+    localStorage.setItem("day", 1);
+    runApp();
+    return;
+  }
+
+  // 🥚 Jours 2 → 6
+  message.textContent = `Jour ${day} : l’œuf se fissure…`;
+  image.src = eggImages[day - 1];
+  localStorage.setItem("day", day + 1);
 }
 
-// Appel initial des fonctions pour afficher correctement dès le chargement
-mettreAJourAffichage();
+// ====== IMAGE SELON JOUR ======
+function getImageForDay(day) {
+  if (day >= 1 && day <= 6) return eggImages[day - 1];
+  if (day === 7) return dinoImage;
+  return eggImages[0];
+}
+
+// ====== LANCEMENT ======
+runApp();
