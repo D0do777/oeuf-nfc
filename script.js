@@ -1,4 +1,3 @@
-// Sélection des éléments du DOM
 const message = document.getElementById("message");
 const image = document.getElementById("image");
 
