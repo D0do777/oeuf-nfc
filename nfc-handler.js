@@ -7,14 +7,13 @@ const TAGS_AUTORISES = [
   "TAG0001",
   "TAG0002",
   "DINOSAURE-001"
-  // ➕ tu ajoutes ici autant de tags que tu veux
 ];
 
 // ===============================
-// LECTURE DU TAG DEPUIS L'URL
+// RÉCUPÉRER LE TAG DE L'URL
 // ===============================
 
-function getTagId() {
+function getTagIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get("tag");
 }
@@ -23,33 +22,35 @@ function getTagId() {
 // VÉRIFICATION DU TAG
 // ===============================
 
-function verifierTag() {
-  const tagId = getTagId();
+function verifierTagNFC() {
+  const tagFromUrl = getTagIdFromUrl();
+  const tagStocke = localStorage.getItem("tagValide");
 
-  if (!tagId) {
-    afficherErreur("Aucun tag NFC détecté.");
-    return false;
+  // 1️⃣ Si un tag valide est déjà stocké → OK
+  if (tagStocke && TAGS_AUTORISES.includes(tagStocke)) {
+    return true;
   }
 
-  if (!TAGS_AUTORISES.includes(tagId)) {
-    afficherErreur("Ce tag NFC n'est pas valide.");
-    return false;
+  // 2️⃣ Sinon, on vérifie celui dans l’URL
+  if (tagFromUrl && TAGS_AUTORISES.includes(tagFromUrl)) {
+    localStorage.setItem("tagValide", tagFromUrl);
+    return true;
   }
 
-  // Tag valide → on le mémorise pour l'appareil
-  localStorage.setItem("tagValide", tagId);
-  return true;
+  // 3️⃣ Sinon → accès refusé
+  afficherErreur();
+  return false;
 }
 
 // ===============================
-// MESSAGE D'ERREUR
+// AFFICHAGE ERREUR
 // ===============================
 
-function afficherErreur(message) {
+function afficherErreur() {
   document.body.innerHTML = `
     <h1>🚫 Accès refusé</h1>
-    <p>${message}</p>
-    <p>Scanne un œuf officiel pour jouer 🥚</p>
+    <p>Ce lien ne provient pas d’un œuf officiel.</p>
+    <p>Scanne un tag NFC pour jouer 🥚</p>
   `;
 }
 
@@ -57,7 +58,6 @@ function afficherErreur(message) {
 // LANCEMENT
 // ===============================
 
-if (!verifierTag()) {
-  throw new Error("Tag NFC invalide");
+if (!verifierTagNFC()) {
+  console.warn("Accès bloqué : tag NFC invalide");
 }
-
