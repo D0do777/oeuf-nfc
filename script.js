@@ -18,9 +18,9 @@ function initialiserJour() {
   return jour;
 }
 
-// Définir la rareté de l'œuf si non définie
-function initialiserRarete() {
-  if (!localStorage.getItem("rarete")) {
+// Définir la rareté de l'œuf uniquement le huitième jour
+function initialiserRarete(jour) {
+  if (jour === 8 && !localStorage.getItem("rarete")) {
     const chance = Math.random();
     let rarete = "Commun";
 
@@ -34,18 +34,17 @@ function initialiserRarete() {
 
     localStorage.setItem("rarete", rarete);
   }
-
-  return localStorage.getItem("rarete");
 }
 
 // Afficher le message et l'image en fonction du jour et de la rareté
 function mettreAJourAffichage() {
   const jour = initialiserJour();
-  const rarete = initialiserRarete();
+  initialiserRarete(jour);
 
   if (jour === 1) {
     message.textContent = "Un œuf vient d’apparaître. Reviens demain.";
   } else {
+    const rarete = localStorage.getItem("rarete") || "Non définie";
     message.textContent = `Jour ${jour} : L’œuf évolue... Rareté : ${rarete}`;
   }
 
@@ -94,10 +93,4 @@ function afficherIndex() {
     nom.textContent = creature.name;
 
     div.appendChild(nom);
-    indexContainer.appendChild(div);
-  });
-}
-
-// Appel initial des fonctions
-mettreAJourAffichage();
-afficherIndex();
+    indexContainer.
