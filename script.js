@@ -1,7 +1,6 @@
 // Sélection des éléments du DOM
 const message = document.getElementById("message");
 const image = document.getElementById("image");
-const indexContainer = document.getElementById("index-creatures");
 
 // Récupérer ou initialiser le jour et la date du dernier scan
 function initialiserJour() {
@@ -36,61 +35,45 @@ function initialiserRarete(jour) {
   }
 }
 
-// Afficher le message et l'image en fonction du jour et de la rareté
+// Obtenir l'image en fonction du jour
+function obtenirImage(jour) {
+  const oeufImages = [
+    'images/Œuf de dinosaure 1.png',
+    'images/oeuf2.png',
+    'images/oeuf3.png',
+    'images/oeuf4.png',
+    'images/oeuf5.png',
+    'images/oeuf6.png'
+  ];
+
+  const creatureImage = 'images/dino.png';
+
+  if (jour >= 1 && jour <= 6) {
+    return oeufImages[jour - 1];
+  } else if (jour === 7) {
+    return creatureImage;
+  } else {
+    // Si on est au-delà du septième jour, on revient à un nouvel œuf
+    return oeufImages[0];
+  }
+}
+
+// Mettre à jour l'affichage en fonction du jour
 function mettreAJourAffichage() {
   const jour = initialiserJour();
   initialiserRarete(jour);
 
   if (jour === 1) {
     message.textContent = "Un œuf vient d’apparaître. Reviens demain.";
+  } else if (jour >= 2 && jour <= 7) {
+    message.textContent = `Jour ${jour} : L’œuf évolue…`;
   } else {
-    const rarete = localStorage.getItem("rarete") || "Non définie";
-    message.textContent = `Jour ${jour} : L’œuf évolue... Rareté : ${rarete}`;
+    // Jour 8 et au-delà : nouvel œuf
+    message.textContent = "Un nouvel œuf apparaît. Reviens demain.";
   }
 
   image.src = obtenirImage(jour);
 }
 
-// Obtenir l'image correspondante au jour
-function obtenirImage(jour) {
-  const oeufImages = [
-    'Œuf de dinosaure 1.png',
-    'oeuf 2.png',
-    'oeuf 3.png',
-    'oeuf 4.png',
-    'oeuf 5.png',
-    'image 6.png'
-  ];
-
-  const creatureImage = 'dinos.avif';
-
-  if (jour >= 1 && jour <= 6) {
-    return `images/${oeufImages[jour - 1]}`;
-  } else if (jour === 7) {
-    return `images/${creatureImage}`;
-  } else {
-    return 'images/image_defaut.jpg';
-  }
-}
-
-// Mettre à jour l'index des créatures débloquées
-function afficherIndex() {
-  const creatures = [
-    { name: "Dino Commun", rarity: "Commun" },
-    { name: "Dino Rare", rarity: "Rare" },
-    { name: "Dino Épique", rarity: "Épique" },
-    { name: "Dino Légendaire", rarity: "Légendaire" }
-    // Ajouter d'autres créatures si nécessaire
-  ];
-
-  indexContainer.innerHTML = "";
-
-  creatures.forEach(creature => {
-    const div = document.createElement("div");
-    div.className = localStorage.getItem(creature.name) ? "debloquee" : "non-debloquee";
-
-    const nom = document.createElement("p");
-    nom.textContent = creature.name;
-
-    div.appendChild(nom);
-    indexContainer.
+// Appel initial des fonctions pour afficher correctement dès le chargement
+mettreAJourAffichage();
