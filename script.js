@@ -97,16 +97,16 @@ afficherIndex();
 
 // Tableau des images de l'œuf pour les six premiers jours
 const oeufImages = [
-  'image_oeuf_jour1.jpg',
-  'image_oeuf_jour2.jpg',
-  'image_oeuf_jour3.jpg',
-  'image_oeuf_jour4.jpg',
-  'image_oeuf_jour5.jpg',
-  'image_oeuf_jour6.jpg'
+  'Œuf de dinosaure 1.png',
+  'oeuf 2.png',
+  'oeuf 3.png',
+  'oeuf 4.png',
+  'oeuf 5.png',
+  'image 6.png'
 ];
 
 // Image de la créature pour le septième jour
-const creatureImage = 'image_creature_jour7.jpg';
+const creatureImage = 'dinos.avif';
 
 // Fonction pour obtenir l'image en fonction du jour actuel
 function obtenirImage(jour) {
