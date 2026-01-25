@@ -38,15 +38,15 @@ function initialiserRarete(jour) {
 // Obtenir l'image en fonction du jour
 function obtenirImage(jour) {
   const oeufImages = [
-    'images/Œuf de dinosaure 1.png',
-    'images/oeuf2.png',
-    'images/oeuf3.png',
-    'images/oeuf4.png',
-    'images/oeuf5.png',
-    'images/oeuf6.png'
+    'Œuf de dinosaure 1.png',
+    'oeuf 2.png',
+    'oeuf 3.png',
+    'oeuf 4.png',
+    'oeuf 5.png',
+    'image 6.png'
   ];
 
-  const creatureImage = 'images/dino.png';
+  const creatureImage = 'dinos.avif';
 
   if (jour >= 1 && jour <= 6) {
     return oeufImages[jour - 1];
