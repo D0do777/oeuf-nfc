@@ -126,3 +126,18 @@ const imageAAfficher = obtenirImage(jourActuel);
 
 // Afficher l'image (par exemple dans une balise <img> ou un élément HTML)
 document.getElementById('image-container').src = imageAfficher;
+
+let jourActuel = 1; // Remplace cette valeur pour tester différents jours
+
+let imageAfficher;
+
+if (jourActuel >= 1 && jourActuel <= 6) {
+  // On affiche l’image de l’œuf correspondante
+  imageA afficher = `images/oeuf_jour${jourActuel}.jpg`;
+} else if (jourActuel === 7) {
+  // On affiche l’image de la créature
+  imageA afficher = 'images/creature_jour7.jpg';
+}
+
+// Maintenant, on met à jour l’image sur la page
+document.getElementById('image-container').src = imageA afficher;
