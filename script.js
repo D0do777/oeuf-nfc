@@ -141,3 +141,22 @@ if (jourActuel >= 1 && jourActuel <= 6) {
 
 // Maintenant, on met à jour l’image sur la page
 document.getElementById('image-container').src = imageA afficher;
+
+function mettreAJourImage(jourActuel) {
+  let imageAAfficher;
+
+  if (jourActuel >= 1 && jourActuel <= 6) {
+    // On prend l'image de l'œuf correspondant
+    imageAAfficher = oeufImages[jourActuel - 1];
+  } else if (jourActuel === 7) {
+    // On affiche l'image de la créature
+    imageAAfficher = creatureImage;
+  }
+
+  // On met à jour la source de l'image sur la page
+  document.getElementById('image-container').src = imageAAfficher;
+}
+
+// Exemple : mettre à jour l'image pour le jour 1
+let jourActuel = 1; // Change cette valeur pour tester différents jours
+mettreAJourImage(jourActuel);
