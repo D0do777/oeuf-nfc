@@ -94,3 +94,35 @@ function afficherIndex() {
 
 // Appeler la fonction pour afficher l’index
 afficherIndex();
+
+// Tableau des images de l'œuf pour les six premiers jours
+const oeufImages = [
+  'image_oeuf_jour1.jpg',
+  'image_oeuf_jour2.jpg',
+  'image_oeuf_jour3.jpg',
+  'image_oeuf_jour4.jpg',
+  'image_oeuf_jour5.jpg',
+  'image_oeuf_jour6.jpg'
+];
+
+// Image de la créature pour le septième jour
+const creatureImage = 'image_creature_jour7.jpg';
+
+// Fonction pour obtenir l'image en fonction du jour actuel
+function obtenirImage(jour) {
+  if (jour >= 1 && jour <= 6) {
+    return oeufImages[jour - 1];
+  } else if (jour === 7) {
+    return creatureImage;
+  } else {
+    // Si le jour est en dehors de 1 à 7, on peut afficher une image par défaut ou une image vide
+    return 'image_defaut.jpg';
+  }
+}
+
+// Exemple d'utilisation :
+const jourActuel = 3; // Remplace par la logique pour obtenir le jour actuel
+const imageAAfficher = obtenirImage(jourActuel);
+
+// Afficher l'image (par exemple dans une balise <img> ou un élément HTML)
+document.getElementById('image-container').src = imageAfficher;
