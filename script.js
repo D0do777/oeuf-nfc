@@ -1,3 +1,9 @@
+if (!window.NFC_OK) {
+  console.warn("Application bloquée (NFC requis)");
+  throw new Error("NFC requis");
+}
+
+
 // ====== ELEMENTS HTML ======
 const message = document.getElementById("message");
 const image = document.getElementById("image");
