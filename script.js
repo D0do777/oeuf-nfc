@@ -71,16 +71,17 @@ function runApp() {
 
   // 🔁 Jour 8 → reset (nouvel œuf)
   if (day >= 8) {
-    localStorage.clear();
+    localStorage.removeItem("day");
+    localStorage.removeItem("lastScan");
+    localStorage.removeItem("rarity");
     localStorage.setItem("day", 1);
     runApp();
     return;
   }
 
   // 🥚 Jours 2 → 6
-  message.textContent = `Jour ${day} : l’œuf se fissure…`;
+ message.textContent = `Jour ${day + 1} : l’œuf se fissure…`;
   image.src = eggImages[day - 1];
-  localStorage.setItem("day", day + 1);
 }
 
 // ====== IMAGE SELON JOUR ======
