@@ -1,5 +1,6 @@
 if (!window.NFC_OK) {
   console.warn("Application bloquée (NFC requis)");
+  document.body.innerHTML = "";
   throw new Error("NFC requis");
 }
 
@@ -82,6 +83,7 @@ function runApp() {
   // 🥚 Jours 2 → 6
  message.textContent = `Jour ${day + 1} : l’œuf se fissure…`;
   image.src = eggImages[day - 1];
+  localStorage.setItem("day", day + 1);
 }
 
 // ====== IMAGE SELON JOUR ======
@@ -90,6 +92,11 @@ function getImageForDay(day) {
   if (day === 7) return dinoImage;
   return eggImages[0];
 }
+
+
+const rarity = localStorage.getItem("rarity");
+message.textContent += ` (${rarity})`;
+
 
 // ====== LANCEMENT ======
 runApp();
