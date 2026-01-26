@@ -1,18 +1,13 @@
-if (!window.NFC_OK) {
-  console.warn("Application bloquée (NFC requis)");
-  document.body.innerHTML = "<h1>🚫 NFC requis</h1>";
-} else {
+function main() {
 
   // ====== ELEMENTS HTML ======
   const message = document.getElementById("message");
   const image = document.getElementById("image");
 
-  // ====== DATE DU JOUR ======
   function getToday() {
     return new Date().toISOString().split("T")[0];
   }
 
-  // ====== RARETÉ (UNE FOIS PAR ŒUF) ======
   function generateRarity() {
     const roll = Math.random();
     if (roll < 0.05) return "Légendaire";
@@ -21,7 +16,6 @@ if (!window.NFC_OK) {
     return "Commun";
   }
 
-  // ====== IMAGES ======
   const eggImages = [
     "Œuf de dinosaure 1.png",
     "oeuf 2.png",
@@ -33,7 +27,6 @@ if (!window.NFC_OK) {
 
   const dinoImage = "dinos.avif";
 
-  // ====== LOGIQUE PRINCIPALE ======
   function runApp() {
     let day = parseInt(localStorage.getItem("day")) || 1;
     let lastScan = localStorage.getItem("lastScan");
@@ -86,4 +79,13 @@ if (!window.NFC_OK) {
   }
 
   runApp();
+}
+
+
+// ====== NFC GATE (SEUL ENDROIT AUTORISÉ AU GLOBAL) ======
+if (!window.NFC_OK) {
+  console.warn("Application bloquée (NFC requis)");
+  document.body.innerHTML = "<h1>🚫 NFC requis</h1>";
+} else {
+  main();
 }
