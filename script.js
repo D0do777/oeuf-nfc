@@ -55,6 +55,7 @@ function runApp() {
   if (day === 1) {
     const rarity = generateRarity();
     localStorage.setItem("rarity", rarity);
+    localStorage.setItem("day", 2);
     message.textContent = `🥚 Un œuf ${rarity} apparaît !`;
     image.src = eggImages[0];
     return;
