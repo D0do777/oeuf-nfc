@@ -63,12 +63,14 @@ function runApp() {
   }
 
   // 🦖 Jour 7 → dinosaure
-  if (day === 7) {
-    message.textContent = "🦖 L’œuf éclot ! Un dinosaure apparaît !";
-    image.src = dinoImage;
-    localStorage.setItem("day", day + 1);
-    return;
-  }
+if (day === 7) {
+  const rarity = localStorage.getItem("rarity");
+  message.textContent = `🦖 L’œuf ${rarity} éclot ! Un dinosaure apparaît !`;
+  image.src = dinoImage;
+  localStorage.setItem("day", day + 1);
+  return;
+}
+
 
   // 🔁 Jour 8 → reset (nouvel œuf)
   if (day >= 8) {
