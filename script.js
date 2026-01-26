@@ -1,7 +1,7 @@
 if (!window.NFC_OK) {
   console.warn("Application bloquée (NFC requis)");
-  document.body.innerHTML = "";
-  throw new Error("NFC requis");
+  document.body.innerHTML = "<h1>🚫 NFC requis</h1>";
+  return;
 }
 
 
@@ -95,7 +95,9 @@ function getImageForDay(day) {
 
 
 const rarity = localStorage.getItem("rarity");
-message.textContent += ` (${rarity})`;
+message.textContent = `Jour ${day + 1} : l’œuf se fissure… (${rarity})`;
+
+message.textContent = "⏳ Tu as déjà scanné aujourd’hui. Reviens demain.";
 
 
 // ====== LANCEMENT ======
