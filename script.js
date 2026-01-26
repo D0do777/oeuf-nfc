@@ -80,10 +80,10 @@ function runApp() {
     return;
   }
 
-  // 🥚 Jours 2 → 6
- message.textContent = `Jour ${day + 1} : l’œuf se fissure…`;
-  image.src = eggImages[day - 1];
-  localStorage.setItem("day", day + 1);
+const rarity = localStorage.getItem("rarity");
+message.textContent = `Jour ${day + 1} : l’œuf se fissure… (${rarity})`;
+image.src = eggImages[day - 1];
+localStorage.setItem("day", day + 1);
 }
 
 // ====== IMAGE SELON JOUR ======
@@ -94,10 +94,6 @@ function getImageForDay(day) {
 }
 
 
-const rarity = localStorage.getItem("rarity");
-message.textContent = `Jour ${day + 1} : l’œuf se fissure… (${rarity})`;
-
-message.textContent = "⏳ Tu as déjà scanné aujourd’hui. Reviens demain.";
 
 
 // ====== LANCEMENT ======
