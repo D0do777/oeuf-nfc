@@ -82,10 +82,17 @@ function main() {
 }
 
 
-// ====== NFC GATE (SEUL ENDROIT AUTORISÉ AU GLOBAL) ======
 if (!window.NFC_OK) {
   console.warn("Application bloquée (NFC requis)");
-  document.body.innerHTML = "<h1>🚫 NFC requis</h1>";
+
+  const app = document.getElementById("app");
+  if (app) {
+    app.innerHTML = `
+      <h1>🚫 NFC requis</h1>
+      <p>Scanne un œuf officiel pour jouer 🥚</p>
+    `;
+  }
 } else {
   main();
 }
+
