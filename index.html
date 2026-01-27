@@ -5,12 +5,13 @@
   <title>Œuf mystérieux</title>
 
   <style>
+    /* === Plein écran === */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
-      background-color: #000;
+      background-color: #000; /* couleur minimale du fond */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,46 +24,56 @@
       height: 100%;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
     }
 
-    /* Rectangle noir du haut */
+    /* Titre dans rectangle noir en haut */
     #title-container {
       width: 100%;
       background-color: #000;
       color: #fff;
       text-align: center;
-      padding: 15px 0 20px;
+      padding: 15px 0;
+      font-size: 5rem;
+      font-weight: bold;
       z-index: 2;
       box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    #title-container h1 {
-      margin: 0;
-      font-size: 5rem;
-      font-weight: bold;
-    }
-
-    /* Rareté SOUS le titre */
-    #rarity-container {
-      margin-top: 10px;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #f0a500;
-    }
-
-    /* Conteneur image plein écran */
+    /* Conteneur de l’image et texte */
     #full-screen-container {
       flex: 1;
       width: 100%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      position: relative;
+      padding: 0 10px; /* petit padding pour que l'image ne touche pas les bords */
+      box-sizing: border-box;
     }
 
     #image {
       max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      max-height: 90%;
+      object-fit: contain; /* image non déformée, prend le max possible */
+      z-index: 1;
+    }
+
+    #rarity-container {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0,0,0,0.6);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      text-align: center;
+      z-index: 2;
     }
 
     button {
@@ -83,18 +94,14 @@
 
 <body>
   <div id="app">
+    <!-- Titre dans rectangle noir -->
+    <div id="title-container">🥚 Œuf mystérieux</div>
 
-    <!-- Rectangle noir -->
-    <div id="title-container">
-      <h1>🥚 Œuf mystérieux</h1>
-      <div id="rarity-container"></div>
-    </div>
-
-    <!-- Image plein écran -->
+    <!-- Conteneur plein écran -->
     <div id="full-screen-container">
       <img id="image" src="" alt="Œuf ou dinosaure">
+      <div id="rarity-container"></div>
     </div>
-
   </div>
 
   <script src="nfc-handler.js"></script>
