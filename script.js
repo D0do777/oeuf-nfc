@@ -3,6 +3,11 @@ function main() {
   const rarityContainer = document.getElementById("rarity-container");
   const app = document.getElementById("app");
 
+  // Création des objets Audio pour les sons
+const sonApparitionOeuf = new Audio('audio/oeuf-apparition.mp3');
+const sonBoutonCollecte = new Audio('audio/bouton-collecte.mp3');
+const sonApparitionDino = new Audio('audio/dino-apparition.mp3');
+
   const eggImages = [
     "oeuf1teatre.png",
     "oeuf2thea.png",
