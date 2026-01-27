@@ -6,15 +6,57 @@
 
   <!-- CSS intégré avec <style> -->
   <style>
-    #rarity-container {
-      background-color: black;
-      color: white;
-      padding: 10px;
-      margin-top: 10px;
-      text-align: center;
-      border-radius: 5px;
+    /* === Plein écran et centrage === */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: #f0f0f0; /* couleur de fond si image ne remplit pas l'écran */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
+    #app {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #full-screen-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain; /* garde l'image entière visible sans déformation */
+    }
+
+    #rarity-container {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0,0,0,0.6);
+      color: white;
+      padding: 20px 40px;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    /* Styles du bouton déjà existants */
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -22,6 +64,7 @@
       border: none;
       background-color: #f0a500;
       cursor: pointer;
+      margin-top: 20px;
     }
 
     button:hover {
@@ -31,13 +74,14 @@
 </head>
 <body>
   <div id="app">
-    <h1>🥚 Œuf mystérieux</h1>
-    <p id="message"></p>
-    <img id="image" width="300">
-    <div id="rarity-container"></div>
-    <div id="index-creatures"></div>
+    <!-- Conteneur plein écran -->
+    <div id="full-screen-container">
+      <img id="image" src="" alt="Œuf ou dinosaure">
+      <div id="rarity-container"></div>
+    </div>
   </div>
 
+  <!-- Scripts -->
   <script src="nfc-handler.js"></script>
   <script src="script.js"></script>
 </body>
