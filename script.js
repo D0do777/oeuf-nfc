@@ -12,8 +12,7 @@ function main() {
     "oeuf6thea.png"
   ];
 
- const dinoImage = "dinos.avif";
-
+  const dinoImage = "dinos.avif";
 
   function getToday() {
     return new Date().toISOString().split("T")[0];
@@ -33,7 +32,9 @@ function main() {
     const today = getToday();
 
     if (lastScan === today) {
-      message.textContent = "⏳ Tu as déjà scanné aujourd’hui. Reviens demain.";
+      rarityContainer.innerHTML = `
+        <p>⏳ Tu as déjà scanné aujourd’hui. Reviens demain.</p>
+      `;
       image.src = getImageForDay(day);
       return;
     }
@@ -44,27 +45,30 @@ function main() {
       const rarity = generateRarity();
       localStorage.setItem("rarity", rarity);
       localStorage.setItem("day", 2);
-      message.textContent = `🥚 Un œuf ${rarity} apparaît !`;
+      rarityContainer.innerHTML = `
+        <p>🥚 Un œuf ${rarity} apparaît !</p>
+      `;
       image.src = eggImages[0];
       return;
     }
 
     if (day === 7) {
       const rarity = localStorage.getItem("rarity");
-      message.textContent = `🦖 L’œuf ${rarity} éclot ! Un dinosaure apparaît !`;
+      rarityContainer.innerHTML = `
+        <p>🦖 L’œuf ${rarity} éclot ! Un dinosaure apparaît !</p>
+      `;
       image.src = dinoImage;
 
-      // Ajouter le bouton "Collecter un nouvel œuf"
+      // Bouton "Collecter un nouvel œuf"
       const app = document.getElementById("app");
       const btn = document.createElement("button");
       btn.textContent = "🥚 Collecter un nouvel œuf";
       btn.style.marginTop = "20px";
       btn.onclick = () => {
-        // Reset de la progression
         localStorage.removeItem("day");
         localStorage.removeItem("lastScan");
         localStorage.removeItem("rarity");
-        runApp(); // relancer pour le jour 1
+        runApp();
       };
       app.appendChild(btn);
 
@@ -82,7 +86,9 @@ function main() {
     }
 
     const rarity = localStorage.getItem("rarity");
-    message.textContent = `Jour ${day} : l’œuf se fissure… (${rarity})`;
+    rarityContainer.innerHTML = `
+      <p>Jour ${day} : l’œuf se fissure… (${rarity})</p>
+    `;
     image.src = eggImages[day - 1];
     localStorage.setItem("day", day + 1);
   }
@@ -97,14 +103,4 @@ function main() {
 }
 
 // NFC Gate
-if (!window.NFC_OK) {
-  const app = document.getElementById("app");
-  if (app) {
-    app.innerHTML = `
-      <h1>🚫 NFC requis</h1>
-      <p>Scanne un œuf officiel pour jouer 🥚</p>
-    `;
-  }
-} else {
-  main();
-}
+if (!window.NFC_OK)
