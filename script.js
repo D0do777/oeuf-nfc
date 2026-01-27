@@ -1,6 +1,7 @@
 function main() {
   const message = document.getElementById("message");
   const image = document.getElementById("image");
+  const rarityContainer = document.getElementById("rarity-container");
 
   const eggImages = [
     "oeuf1teatre.png",
@@ -11,7 +12,8 @@ function main() {
     "oeuf6thea.png"
   ];
 
-  const dinoImage = "dinos.avif";
+ const dinoImage = "dinos.avif";
+
 
   function getToday() {
     return new Date().toISOString().split("T")[0];
