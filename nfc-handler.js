@@ -48,11 +48,14 @@ function verifierTagNFC() {
 // ===============================
 
 function afficherErreur() {
-  document.body.innerHTML = `
-    <h1>🚫 Accès refusé</h1>
-    <p>Ce lien ne provient pas d’un œuf officiel.</p>
-    <p>Scanne un tag NFC pour jouer 🥚</p>
-  `;
+  const app = document.getElementById("app");
+  if (app) {
+    app.innerHTML = `
+      <h1>🚫 Accès refusé</h1>
+      <p>Ce lien ne provient pas d’un œuf officiel.</p>
+      <p>Scanne un tag NFC pour jouer 🥚</p>
+    `;
+  }
 }
 
 // ===============================
