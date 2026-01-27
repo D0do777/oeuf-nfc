@@ -12,7 +12,7 @@ function main() {
     "oeuf6thea.png"
   ];
 
-  // Dinosaures par rareté
+  // 🦖 Dinosaures par rareté (modifiable)
   const DINOSAURES_PAR_RARETE = {
     "Commun": ["dino_commun1.png", "dino_commun2.png"],
     "Rare": ["dino_rare1.png", "dino_rare2.png"],
@@ -45,9 +45,8 @@ function main() {
   }
 
   function getNextRarity() {
-    // Vérifie les raretés disponibles avec dinos non découverts
     const discovered = JSON.parse(localStorage.getItem("dinosDecouverts") || "[]");
-    const availableRaretes = RARETES.filter(r => 
+    const availableRaretes = RARETES.filter(r =>
       DINOSAURES_PAR_RARETE[r].some(d => !discovered.includes(d))
     );
     if (availableRaretes.length === 0) return null; // tout découvert
@@ -59,6 +58,28 @@ function main() {
     let lastScan = localStorage.getItem("lastScan");
     const today = getToday();
 
+    // === Reset partiel si oubli d'un jour ===
+    if (lastScan) {
+      const lastDate = new Date(lastScan);
+      const todayDate = new Date(today);
+      const diffDays = Math.floor((todayDate - lastDate) / (1000*60*60*24));
+
+      if (diffDays > 1) {
+        // Reset de l'œuf au jour 1 mais conserve la rareté et dinos déjà découverts
+        day = 1;
+        localStorage.setItem("day", day);
+
+        const rarity = localStorage.getItem("rarity"); // garde la rareté existante
+        rarityContainer.innerHTML = `
+          <p>🥚 Tu as manqué un jour ! L'œuf revient au jour 1. Rarete conservée : ${rarity}</p>
+        `;
+        image.src = eggImages[0];
+        localStorage.setItem("lastScan", today);
+        return;
+      }
+    }
+
+    // === Déjà scanné aujourd'hui ===
     if (lastScan === today) {
       rarityContainer.innerHTML = `<p>⏳ Tu as déjà scanné aujourd’hui. Reviens demain.</p>`;
       image.src = getImageForDay(day);
@@ -67,31 +88,31 @@ function main() {
 
     localStorage.setItem("lastScan", today);
 
+    // === Jour 1 ===
     if (day === 1) {
-      let rarity = generateRarity();
+      const rarity = localStorage.getItem("rarity") || generateRarity();
       localStorage.setItem("rarity", rarity);
-      localStorage.setItem("day", 2);
       rarityContainer.innerHTML = `<p>🥚 Un œuf ${rarity} apparaît !</p>`;
       image.src = eggImages[0];
+      localStorage.setItem("day", 2);
       return;
     }
 
+    // === Jour 7 : éclosion ===
     if (day === 7) {
-      let rarity = localStorage.getItem("rarity");
+      const rarity = localStorage.getItem("rarity");
       const dino = selectDino(rarity);
 
       if (dino) {
         rarityContainer.innerHTML = `<p>🦖 L’œuf ${rarity} éclot ! Tu as découvert <strong>${dino}</strong> !</p>`;
         image.src = dino;
       } else {
-        // tous les dinos de cette rareté sont découverts
         const nextRarete = getNextRarity();
         if (nextRarete) {
           localStorage.setItem("rarity", nextRarete);
           rarityContainer.innerHTML = `<p>🦖 Tous les dinosaures ${rarity} ont été découverts. Le prochain œuf sera de rareté <strong>${nextRarete}</strong>.</p>`;
           image.src = "dino_placeholder.png";
         } else {
-          // tout est découvert
           rarityContainer.innerHTML = `<p>🎉 Tu as découvert tous les dinosaures ! Merci d’avoir joué. En attendant la prochaine mise à jour, reviens bientôt !</p>`;
           image.src = "dino_placeholder.png";
         }
@@ -101,6 +122,7 @@ function main() {
       return;
     }
 
+    // === Jours 8+ ===
     if (day >= 8) {
       rarityContainer.innerHTML = `<p>La progression continue…</p>`;
       image.src = getImageForDay(day);
@@ -108,6 +130,7 @@ function main() {
       return;
     }
 
+    // === Jours 2 à 6 ===
     const rarity = localStorage.getItem("rarity");
     rarityContainer.innerHTML = `<p>Jour ${day} : l’œuf se fissure… (${rarity})</p>`;
     image.src = eggImages[day - 1];
@@ -122,7 +145,7 @@ function main() {
   runApp();
 }
 
-// NFC Gate
+// === NFC Gate ===
 if (!window.NFC_OK) {
   const app = document.getElementById("app");
   if (app) {
