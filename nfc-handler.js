@@ -59,8 +59,9 @@ function afficherErreur() {
 // LANCEMENT
 // ===============================
 
-if (!verifierTagNFC()) {
+const NFC_OK = verifierTagNFC();
+window.NFC_OK = NFC_OK;
+
+if (!NFC_OK) {
   console.warn("Accès bloqué : tag NFC invalide");
 }
-
-window.NFC_OK = verifierTagNFC();
