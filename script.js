@@ -17,12 +17,12 @@ function main() {
   }
 
   const eggImages = [
-    "oeuf 1 teatre.png",
-    "oeuf 2 thea.png",
-    "oeuf 3 thea.png",
-    "oeuf 4 thea.png",
-    "oeuf 5 thea.png",
-    "oeuf 6 thea.png"
+    "oeuf1teatre.png",
+    "oeuf2thea.png",
+    "oeuf3thea.png",
+    "oeuf4thea.png",
+    "oeuf5thea.png",
+    "oeuf6thea.png"
   ];
 
   const dinoImage = "dinos.avif";
