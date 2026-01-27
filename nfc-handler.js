@@ -7,6 +7,7 @@ const TAGS_AUTORISES = [
   "TAG0001",
   "TAG0002",
   "testj1",
+  "Franckk",
   "DINOSAURE-001"
 ];
 
