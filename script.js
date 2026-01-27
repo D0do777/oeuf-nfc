@@ -67,7 +67,7 @@ function main() {
     }
 
     const rarity = localStorage.getItem("rarity");
-    message.textContent = `Jour ${day + 1} : l’œuf se fissure… (${rarity})`;
+    message.textContent = `Jour ${day} : l’œuf se fissure… (${rarity})`;
     image.src = eggImages[day - 1];
     localStorage.setItem("day", day + 1);
   }
