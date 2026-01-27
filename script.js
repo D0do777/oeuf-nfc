@@ -1,8 +1,17 @@
 function main() {
-
-  // ====== ELEMENTS HTML ======
   const message = document.getElementById("message");
   const image = document.getElementById("image");
+
+  const eggImages = [
+    "oeuf1teatre.png",
+    "oeuf2thea.png",
+    "oeuf3thea.png",
+    "oeuf4thea.png",
+    "oeuf5thea.png",
+    "oeuf6thea.png"
+  ];
+
+  const dinoImage = "dinos.avif";
 
   function getToday() {
     return new Date().toISOString().split("T")[0];
@@ -15,17 +24,6 @@ function main() {
     if (roll < 0.40) return "Rare";
     return "Commun";
   }
-
-  const eggImages = [
-    "oeuf1teatre.png",
-    "oeuf2thea.png",
-    "oeuf3thea.png",
-    "oeuf4thea.png",
-    "oeuf5thea.png",
-    "oeuf6thea.png"
-  ];
-
-  const dinoImage = "dinos.avif";
 
   function runApp() {
     let day = parseInt(localStorage.getItem("day")) || 1;
@@ -53,6 +51,21 @@ function main() {
       const rarity = localStorage.getItem("rarity");
       message.textContent = `🦖 L’œuf ${rarity} éclot ! Un dinosaure apparaît !`;
       image.src = dinoImage;
+
+      // Ajouter le bouton "Collecter un nouvel œuf"
+      const app = document.getElementById("app");
+      const btn = document.createElement("button");
+      btn.textContent = "🥚 Collecter un nouvel œuf";
+      btn.style.marginTop = "20px";
+      btn.onclick = () => {
+        // Reset de la progression
+        localStorage.removeItem("day");
+        localStorage.removeItem("lastScan");
+        localStorage.removeItem("rarity");
+        runApp(); // relancer pour le jour 1
+      };
+      app.appendChild(btn);
+
       localStorage.setItem("day", day + 1);
       return;
     }
@@ -81,10 +94,8 @@ function main() {
   runApp();
 }
 
-
+// NFC Gate
 if (!window.NFC_OK) {
-  console.warn("Application bloquée (NFC requis)");
-
   const app = document.getElementById("app");
   if (app) {
     app.innerHTML = `
@@ -95,4 +106,3 @@ if (!window.NFC_OK) {
 } else {
   main();
 }
-
