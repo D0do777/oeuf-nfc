@@ -102,6 +102,10 @@ const sonApparitionDino = new Audio('audio/dino-apparition.mp3');
     if (day === 1) {
       const rarity = localStorage.getItem("rarity") || generateRarity();
       localStorage.setItem("rarity", rarity);
+      
+      // Jouer le son d'apparition de l'œuf
+      sonApparitionOeuf.play();
+      
       rarityContainer.innerHTML = `<p>🥚 Un œuf ${rarity} apparaît !</p>`;
       image.src = eggImages[0];
       localStorage.setItem("day", 2);
@@ -114,6 +118,8 @@ const sonApparitionDino = new Audio('audio/dino-apparition.mp3');
       const dino = selectDino(rarity);
 
       if (dino) {
+          // Jouer le son d'apparition du dinosaure
+        sonApparitionDino.play();
         addDiscoveredDino(dino);
         image.src = dino;
         rarityContainer.innerHTML = `<p>🦖 Un dinosaure ${rarity} est né !</p>`;
@@ -131,6 +137,8 @@ const sonApparitionDino = new Audio('audio/dino-apparition.mp3');
       btn.id = "collect-btn";
       btn.textContent = "🥚 Collecter un nouvel œuf";
       btn.onclick = () => {
+        // Jouer le son du bouton de collecte
+        sonBoutonCollecte.play();
         localStorage.setItem("day", 1);
         runApp();
       };
