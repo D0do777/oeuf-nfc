@@ -19,10 +19,10 @@ const sonApparitionDino = new Audio('audio/dino.mp3');
 
   // 🦖 Dinosaures par rareté (modifiable librement)
   const DINOSAURES_PAR_RARETE = {
-    "Commun": ["dino_commun1.png", "dino_commun2.png"],
-    "Rare": ["dino_rare1.png", "dino_rare2.png"],
-    "Épique": ["dino_epique1.png", "dino_epique2.png"],
-    "Légendaire": ["dino_legendaire1.png"]
+    "Commun": ["dinos.avif", "dinos.avif"],
+    "Rare": ["dinos.avif", "dinos.avif"],
+    "Épique": ["dinos.avif", "dinos.avif"],
+    "Légendaire": ["dinos.avif"]
   };
 
   const RARETES = Object.keys(DINOSAURES_PAR_RARETE);
