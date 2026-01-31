@@ -3,10 +3,10 @@ function main() {
   const rarityContainer = document.getElementById("rarity-container");
   const app = document.getElementById("app");
 
-  // Création des objets Audio pour les sons
-const sonApparitionOeuf = new Audio('audio/oeuf.wav');
-const sonBoutonCollecte = new Audio('audio/bouton.flac');
-const sonApparitionDino = new Audio('audio/dino.mp3');
+  // 🎵 Sons
+  const sonApparitionOeuf = new Audio('audio/oeuf.wav');
+  const sonBoutonCollecte = new Audio('audio/bouton.flac');
+  const sonApparitionDino = new Audio('audio/dino.mp3');
 
   const eggImages = [
     "oeuf1teatre.png",
@@ -17,11 +17,10 @@ const sonApparitionDino = new Audio('audio/dino.mp3');
     "oeuf6thea.png"
   ];
 
-  // 🦖 Dinosaures par rareté (modifiable librement)
   const DINOSAURES_PAR_RARETE = {
-    "Commun": ["dinos.avif", "dinos.avif"],
-    "Rare": ["dinos.avif", "dinos.avif"],
-    "Épique": ["dinos.avif", "dinos.avif"],
+    "Commun": ["dinos.avif"],
+    "Rare": ["dinos.avif"],
+    "Épique": ["dinos.avif"],
     "Légendaire": ["dinos.avif"]
   };
 
@@ -56,15 +55,6 @@ const sonApparitionDino = new Audio('audio/dino.mp3');
     return available[Math.floor(Math.random() * available.length)];
   }
 
-  function getNextRarity() {
-    const discovered = getDiscoveredDinos();
-    const available = RARETES.filter(r =>
-      DINOSAURES_PAR_RARETE[r].some(d => !discovered.includes(d))
-    );
-    if (available.length === 0) return null;
-    return available[Math.floor(Math.random() * available.length)];
-  }
-
   function clearButtons() {
     const btn = document.getElementById("collect-btn");
     if (btn) btn.remove();
@@ -77,67 +67,41 @@ const sonApparitionDino = new Audio('audio/dino.mp3');
     let lastScan = localStorage.getItem("lastScan");
     const today = getToday();
 
-    // ⏳ Oubli d’un jour → retour jour 1 mais rareté conservée
-    if (lastScan) {
-      const diffDays = Math.floor((new Date(today) - new Date(lastScan)) / 86400000);
-      if (diffDays > 1) {
-        day = 1;
-        localStorage.setItem("day", 1);
-        rarityContainer.innerHTML = `<p>🥚 Tu as manqué un jour. L'œuf recommence, rareté conservée.</p>`;
-        image.src = eggImages[0];
-        localStorage.setItem("lastScan", today);
-        return;
-      }
-    }
-
     if (lastScan === today) {
-      rarityContainer.innerHTML = `<p>⏳ Tu as déjà scanné aujourd’hui. Reviens demain.</p>`;
+      rarityContainer.innerHTML = `<p>⏳ Tu as déjà scanné aujourd’hui.</p>`;
       image.src = eggImages[Math.max(day - 1, 0)];
       return;
     }
 
     localStorage.setItem("lastScan", today);
 
-    // Jour 1
+    // 🥚 Jour 1
     if (day === 1) {
       const rarity = localStorage.getItem("rarity") || generateRarity();
       localStorage.setItem("rarity", rarity);
-      
-      // Jouer le son d'apparition de l'œuf
       sonApparitionOeuf.play();
-      
       rarityContainer.innerHTML = `<p>🥚 Un œuf ${rarity} apparaît !</p>`;
       image.src = eggImages[0];
       localStorage.setItem("day", 2);
       return;
     }
 
-    // Jour 7 – éclosion
+    // 🦖 Jour 7
     if (day === 7) {
       const rarity = localStorage.getItem("rarity");
       const dino = selectDino(rarity);
 
       if (dino) {
-          // Jouer le son d'apparition du dinosaure
         sonApparitionDino.play();
         addDiscoveredDino(dino);
         image.src = dino;
         rarityContainer.innerHTML = `<p>🦖 Un dinosaure ${rarity} est né !</p>`;
-      } else {
-        const next = getNextRarity();
-        if (next) {
-          localStorage.setItem("rarity", next);
-          rarityContainer.innerHTML = `<p>✨ Tous les ${rarity} sont découverts. Prochaine rareté : ${next}</p>`;
-        } else {
-          rarityContainer.innerHTML = `<p>🎉 Tous les dinosaures sont découverts ! Merci ❤️</p>`;
-        }
       }
 
       const btn = document.createElement("button");
       btn.id = "collect-btn";
       btn.textContent = "🥚 Collecter un nouvel œuf";
       btn.onclick = () => {
-        // Jouer le son du bouton de collecte
         sonBoutonCollecte.play();
         localStorage.setItem("day", 1);
         runApp();
@@ -155,29 +119,25 @@ const sonApparitionDino = new Audio('audio/dino.mp3');
     localStorage.setItem("day", day + 1);
   }
 
+  // 🔧 Bouton DEBUG (test jours)
+  const nextDayButton = document.getElementById("next-day");
+  if (nextDayButton) {
+    nextDayButton.addEventListener("click", () => {
+      let day = parseInt(localStorage.getItem("day")) || 1;
+      localStorage.setItem("day", day + 1);
+      runApp();
+    });
+  }
+
   runApp();
 }
 
-runApp();
-
-// Ajoute un bouton pour avancer les jours
-const nextDayButton = document.getElementById('next-day');
-if (nextDayButton) {
-  nextDayButton.addEventListener('click', function() {
-    let day = parseInt(localStorage.getItem('day')) || 1;
-    day++;
-    localStorage.setItem('day', day);
-    runApp(); // relance l'application avec le jour suivant
-  });
-}
-
-// 🔒 NFC Gate
+// 🔒 NFC
 if (!window.NFC_OK) {
   document.getElementById("app").innerHTML = `
     <h1>🚫 NFC requis</h1>
-    <p>Scanne un œuf officiel pour jouer 🥚</p>
+    <p>Scanne un œuf officiel</p>
   `;
 } else {
   main();
 }
-
