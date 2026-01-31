@@ -158,6 +158,19 @@ const sonApparitionDino = new Audio('audio/dino.mp3');
   runApp();
 }
 
+runApp();
+
+// Ajoute un bouton pour avancer les jours
+const nextDayButton = document.getElementById('next-day');
+if (nextDayButton) {
+  nextDayButton.addEventListener('click', function() {
+    let day = parseInt(localStorage.getItem('day')) || 1;
+    day++;
+    localStorage.setItem('day', day);
+    runApp(); // relance l'application avec le jour suivant
+  });
+}
+
 // 🔒 NFC Gate
 if (!window.NFC_OK) {
   document.getElementById("app").innerHTML = `
