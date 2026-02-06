@@ -22,7 +22,7 @@ function main() {
   // 🦖 Dinos par rareté (modifiable)
   const DINOSAURES_PAR_RARETE = {
     "Commun": ["dinos.avif"],
-    "Rare": ["dinos.avif"],
+    "Rare": ["IMG_7934.jpeg"],
     "Épique": ["dinos.avif"],
     "Légendaire": ["dinos.avif"]
   };
