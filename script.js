@@ -23,7 +23,7 @@ function main() {
   const DINOSAURES_PAR_RARETE = {
     "Commun": ["dinos.avif"],
     "Rare": ["IMG_7934.jpeg"],
-    "Épique": ["dinos.avif"],
+    "Épique": ["B0BC6812-209C-4F6C-AA5C-F3ECE558F0C4.png"],
     "Légendaire": ["dinos.avif"]
   };
 
