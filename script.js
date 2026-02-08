@@ -24,7 +24,7 @@ function main() {
     "Commun": ["dinos.avif"],
     "Rare": ["IMG_7934.jpeg"],
     "Épique": ["B0BC6812-209C-4F6C-AA5C-F3ECE558F0C4.png"],
-    "Légendaire": ["dinos.avif"]
+    "Légendaire": ["4CC5D311-FFF8-4517-8D5C-13F807EF6697.png"]
   };
 
   function getToday() {
